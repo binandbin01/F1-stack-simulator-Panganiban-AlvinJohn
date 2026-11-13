@@ -69,4 +69,48 @@ $(document).ready(function(){
     $("#stack").prepend(`<div class="row bg-success push">${stack.push(200)[0]}</div>`);
     $("#stack").prepend(`<div class="row bg-primary push">${stack.push(300)[0]}</div>`);
     $("#stack").prepend(`<div class="row bg-success push">${stack.push(400)[0]}</div>`);
+
+     // PUSH
+    $("#btnPush").click(function(){
+        let value = $("#data").val().trim();
+        if(value === ""){
+            alert("Please enter a value first.");
+            return;
+        }
+        let colorClass = stack.count % 2 === 0 ? "bg-primary" : "bg-success";
+        $("#stack").prepend(`<div class="row ${colorClass} push">${stack.push(value)[0]}</div>`);
+        $("#data").val("").focus();
+    });
+
+    // POP
+    $("#btnPop").click(function(){
+        if(stack.count === 0){
+            alert("Stack is empty. Nothing to pop.");
+            return;
+        }
+        let removed = stack.pop();
+        $("#stack").children().first().remove();
+        $("#deleted").prepend(`<div class="row pop text-bg-danger border border-light">${removed}</div>`);
+    });
+
+    // PEEK
+    $("#btnPeek").click(function(){
+        if(stack.count === 0){
+            alert("Stack is empty. Nothing to peek.");
+            return;
+        }
+        stack.peek();
+        let top = $("#stack").children().first();
+        top.addClass("border border-warning border-4");
+        setTimeout(function(){
+            top.removeClass("border border-warning border-4");
+        }, 1500);
+    });
+
+    // CLEAR
+    $("#btnClear").click(function(){
+        stack.clear();
+        $("#stack").empty();
+        $("#deleted").empty();
+    });
 });
